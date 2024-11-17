@@ -1,0 +1,9 @@
+CREATE TABLE syslog (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    timeOccured TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    hostname VARCHAR(255) NOT NULL,
+    ip_address VARCHAR(255) NOT NULL,
+    program VARCHAR(255) NOT NULL,
+    severity INT NOT NULL,
+    msg TEXT NOT NULL
+);
