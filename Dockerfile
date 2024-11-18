@@ -5,7 +5,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y \
     rsyslog \
-    mariadb-client \
     rsyslog-mysql && \
     rm -rf /var/cache/apt/archives/* && \
     apt-get clean
