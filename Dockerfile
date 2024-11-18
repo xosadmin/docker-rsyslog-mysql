@@ -19,6 +19,8 @@ RUN echo "\n# Enable UDP syslog reception" >> /etc/rsyslog.conf && \
     echo "\n# Log to file (default)" >> /etc/rsyslog.conf && \
     echo "*.* /var/log/syslog" >> /etc/rsyslog.conf
 
+RUN chmod a+x /etc/entrypoint.sh
+
 RUN echo "\n# MySQL output configuration" >> /etc/rsyslog.conf && \
     echo "module(load=\"ommysql\")" >> /etc/rsyslog.conf && \
     echo "*.* :ommysql:${MYSQL_HOST},${MYSQL_DBNAME},${MYSQL_USER},${MYSQL_PASSWORD};RSYSLOG_TEMPLATE" >> /etc/rsyslog.conf
