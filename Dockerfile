@@ -3,7 +3,8 @@ FROM debian:stable-slim
 RUN apt-get update && \
     apt-get install -y \
     rsyslog \
-    mariadb-client && \
+    mariadb-client \
+    rsyslog-mysql && \
     rm -rf /var/cache/apt/archives/* && \
     apt-get clean
 
