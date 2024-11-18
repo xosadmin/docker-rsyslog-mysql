@@ -1,22 +1,20 @@
-FROM alpine:latest
+FROM debian:stable-slim
 
-RUN apk update && \
-    apk add --no-cache \
+RUN apt-get update && \
+    apt-get install -y \
     rsyslog \
-    rsyslog-mysql \
-    mariadb-client \
-    bash \
-    && rm -rf /var/cache/apk/*
+    mariadb-client && \
+    rm -rf /var/cache/apt/archives/* && \
+    apt-get clean
 
 COPY entrypoint.sh /etc/entrypoint.sh
+RUN chmod +x /etc/entrypoint.sh
 
 RUN echo "module(load=\"imudp\")" >> /etc/rsyslog.conf && \
     echo "input(type=\"imudp\" port=\"514\")" >> /etc/rsyslog.conf && \
     echo "module(load=\"imtcp\")" >> /etc/rsyslog.conf && \
     echo "input(type=\"imtcp\" port=\"514\")" >> /etc/rsyslog.conf && \
     echo "*.* /var/log/syslog" >> /etc/rsyslog.conf
-
-RUN chmod a+x /etc/entrypoint.sh
 
 ENTRYPOINT ["/etc/entrypoint.sh"]
 
