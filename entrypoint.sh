@@ -9,8 +9,8 @@ echo "Starting rsyslog..."
 sed -i 's/^module(load="imklog")/#module(load="imklog")/' /etc/rsyslog.conf
 if ! grep -q 'module(load="ommysql")' /etc/rsyslog.conf; then
   echo 'module(load="ommysql")' >> /etc/rsyslog.conf
-  echo 'template(name="RSYSLOG_TEMPLATE" type="string" sql="INSERT INTO logs (timestamp, hostname, fromhost_ip, programname, syslogseverity, msg) VALUES ('"'%timestamp%','%hostname%','%fromhost-ip%','%programname%','%syslogseverity%','%msg%'"');")' >> /etc/rsyslog.conf
-  echo '*.* :ommysql:server=${MYSQL_HOST},db=${MYSQL_DBNAME},uid=${MYSQL_USER},pwd=${MYSQL_PASSWORD};RSYSLOG_TEMPLATE' >> /etc/rsyslog.conf
+  echo 'template(name="RSYSLOG_TEMPLATE" type="string" string="%timestamp% %hostname% %fromhost-ip% %programname% %syslogseverity-text% %msg%")' >> /etc/rsyslog.conf
+  echo '*.* action(type="ommysql" server="${MYSQL_HOST}" db="${MYSQL_DBNAME}" uid="${MYSQL_USER}" pwd="${MYSQL_PASSWORD}" template="RSYSLOG_TEMPLATE")' >> /etc/rsyslog.conf
 fi
 
 exec rsyslogd -n
